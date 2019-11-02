@@ -6,6 +6,8 @@ let http = require('http');
 let log4js = require('log4js');
 let cors = require('cors');
 let bodyParser = require('body-parser');
+let markdown = require( "markdown" ).markdown;;
+let fs = require("fs");
 
 log4js.configure({
   appenders: {
@@ -34,12 +36,15 @@ var transaction_list = [
 
 // Test page
 app.get('/', function(req, res){
-  res.send('Welcome to FTEC5510 Team 5!')
+  logger.info('New visitor: %s',req.headers);
+  var readme = fs.readFileSync("README.md", "utf8");
+  var htlm = markdown.toHTML( readme );
+  res.send(htlm);
 })
 
 // Login
 app.post('/login', function(req, res) {
-  logger.info('Inbound login: %s',req.headers);
+  logger.info('Login: %s',req.headers);
 
   if(req.header('username') == mock_exporter_login && req.header('password') == mock_exporter_login) {
     res.status(200).json({ "id": mock_exporter_id });
