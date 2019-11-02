@@ -45,7 +45,7 @@ app.get('/', function(req, res){
 // Login
 app.post('/login', function(req, res) {
   logger.info('Login: %s',req.headers);
-
+  console.log()
   if(req.header('username') == mock_exporter_login && req.header('password') == mock_exporter_login) {
     res.status(200).json({ "id": mock_exporter_id });
   } else if(req.header('username') == mock_importer_login && req.header('password') == mock_importer_login) {
@@ -77,6 +77,8 @@ app.get( '/get_user_info', function(req, res ) {
 
 // Get transaction list
 app.get('/get_list', function(req, res) {
+  logger.info('Get list: %s',req.headers);
+
   res.status(200).json({ transaction_list });
 })
 
