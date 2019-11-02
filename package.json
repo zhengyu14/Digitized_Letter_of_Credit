@@ -1,0 +1,21 @@
+{
+  "name": "comm_system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "basic_auth.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node basic_auth.js"
+  },
+  "author": "avery_zhu",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-basic-auth": "^1.2.0",
+    "log4js": "^5.2.2",
+    "request": "^2.88.0",
+    "ws": "^7.1.2"
+  }
+}
