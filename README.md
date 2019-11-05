@@ -16,7 +16,11 @@ http://116.62.202.114:3000
 * Response (JSON): "imgurl", "name", "location"
 ###### Get transaction list
 * GET /get_list
-* Response (JSON): "transaction_id", "description", "importer", "exporter", "amount", "posting_date"
+* Response (JSON): ["transaction_id", "description", "importer", "exporter", "amount", "posting_date"]
+###### Add 1 item to transaction list
+* POST /add_to_list
+* Headers: "transaction_id", "description", "importer", "exporter", "amount", "posting_date"
+* Response (JSON): ["transaction_id", "description", "importer", "exporter", "amount", "posting_date"]
 ###### Get transaction letter of credit
 * GET /get_transaction_lc
 * Response (JSON):

@@ -48,6 +48,10 @@ function mock_data() {
         return transaction_list;
     }
 
+    this.push_to_transaction_list = function(item) {
+        transaction_list.push(item);
+    }
+
     this.get_transaction_lc = function() {
         return transaction_lc;
     }

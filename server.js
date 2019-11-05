@@ -91,9 +91,9 @@ app.post('/add_to_list', function(req, res) {
     "amount": req.header('amount'),
     "posting_date": req.header('posting_date')};
 
-  transaction_list.push(new_item);
+  data.push_to_transaction_list(new_item);
 
-  res.status(200).json({ transaction_list });
+  res.status(200).json(data.get_transaction_list());
 })
 
 // Get transaction lc
