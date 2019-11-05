@@ -44,6 +44,10 @@ function mock_data() {
         }
     ];
 
+    this.get_transaction_list = function() {
+        return transaction_list;
+    }
+
     this.get_transaction_lc = function() {
         return transaction_lc;
     }
