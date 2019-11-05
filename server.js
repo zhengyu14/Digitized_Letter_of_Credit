@@ -8,6 +8,7 @@ let cors = require('cors');
 let bodyParser = require('body-parser');
 let markdown = require( "markdown" ).markdown;;
 let fs = require("fs");
+let mock_data = require("./mock_data");
 
 log4js.configure({
   appenders: {
@@ -22,17 +23,13 @@ let logger = log4js.getLogger('NGOAPI');
 let host = 'localhost';
 let port = 3000;
 let app = express( );
+let data = new mock_data( );
 
 // Mock data
 let mock_exporter_login = 'exporter';
 let mock_importer_login = 'importer';
 let mock_exporter_id = 'exporter_id';
 let mock_importer_id = 'importer_id';
-var transaction_list = [
-  {"transaction_id": "57423905", "description": "Noble Gas 194", "importer": "Vuipes", "exporter": "Great Wall Trading Co.", "amount": "102,597 USD", "posting_date": "2018-01-25"},
-  {"transaction_id": "57423421", "description": "Noble Gas 28", "importer": "Vuipes", "exporter": "Great Wall Trading Co.", "amount": "643,435 USD", "posting_date": "2017-11-14"},
-  {"transaction_id": "57423895", "description": "Hydraulics 74", "importer": "Great Wall Trading Co.", "exporter": "Wolf-Reiser", "amount": "840,639 USD", "posting_date": "2017-06-08"}
-];
 
 // Test page
 app.get('/', function(req, res){
@@ -79,8 +76,9 @@ app.get( '/get_user_info', function(req, res ) {
 app.get('/get_list', function(req, res) {
   logger.info('Get list: %s',req.headers);
 
-  res.status(200).json({ transaction_list });
-})
+  //console.log(data.get_transaction_list());
+  res.status(200).json(data.get_transaction_list());
+});
 
 // Add transaction
 app.post('/add_to_list', function(req, res) {
@@ -97,6 +95,14 @@ app.post('/add_to_list', function(req, res) {
 
   res.status(200).json({ transaction_list });
 })
+
+// Get transaction lc
+app.get('/get_trans_lc', function(req, res) {
+  logger.info('Get list: %s',req.headers);
+
+  res.status(200).json(data.get_transaction_lc());
+});
+
 
 /*------------------------
     Express Config.
