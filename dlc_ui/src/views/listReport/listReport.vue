@@ -3,6 +3,7 @@
 		<template>
 			<el-row class="table_header">
 				<el-col :span="4" :offset="20">
+					<el-button class="table-toolbar" type="text">Request</el-button>
 					<el-button class="table-toolbar" type="text" @click="onClickCreate">Create</el-button>
 					<el-button class="table-toolbar" type="text" @click="onClickRefresh" icon="el-icon-refresh-right"></el-button>
 					<el-button class="table-toolbar" type="text" icon="el-icon-setting"></el-button>
