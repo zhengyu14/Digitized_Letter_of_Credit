@@ -1,0 +1,7 @@
+---
+applications:
+- name: dlc_rest_api
+  buildpack: nodejs_buildpack
+  instances: 1
+  memory: 256MB
+  host: dlc_rest_api
