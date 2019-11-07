@@ -32,9 +32,9 @@
 <style lang="less">
 	.layout-top{
 		background: black;
-		display: flex;
 		align-items: center;
 		font-family: Arial, Helvetica, sans-serif;
+		height: 75px;
 		img{
 	    	width: 50px;
 		    height: 40px;

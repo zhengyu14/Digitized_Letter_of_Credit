@@ -1,10 +1,14 @@
 <template>
 	<div class="layout">
-		<st-top />
-		<div class="layout-group">
+		<div class="layout-header" >
+			<st-top />
+		</div>
+		<div class="layout-main" >
 			<st-main />
 		</div>
-		<st-footer />		
+		<div class="layout-footer" >
+			<st-footer />
+		</div>
 	</div>
 </template>
 
@@ -33,4 +37,22 @@
 	};
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+	.layout-header{
+		display: block;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		height: 75px;
+	}
+	.layout-main{
+		padding: 16px;
+		margin-top: 30px;
+	}
+	.layout-footer{
+		overflow: hidden;
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+	}
+</style>

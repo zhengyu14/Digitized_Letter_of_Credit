@@ -21,7 +21,7 @@
 				<br><br><br><br><br><br><br><br>
 				<el-divider></el-divider>
 				<div align="right" class="login-operation-area">
-					<el-button class="longin-button" type="primary" @click = "onClickLogin">Login</el-button>
+					<el-button class="login-button" type="primary" @click = "onClickLogin">Login</el-button>
 				</div>
 			</div>
 		</el-card>
@@ -72,7 +72,7 @@
 		justify-content: center;
 		align-items: center !important;
 		background-image: url('../../assets/login_bg.jpg');
-		background-size: 100% 100%;   	
+		background-size: 100% 100%;
 	}
 	.box-card-login{
 		border-radius: 0px;
@@ -96,7 +96,7 @@
 		.login-operation-area{
 			justify-content: right;
 			align-items: right;
-			.longin-button{
+			.login-button{
 				width:100px;
 				background-color:#BB0000;
 				border:none;
