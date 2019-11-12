@@ -95,10 +95,10 @@
 		mounted() {
 			axios.get('/api/get_list').then(response => (this.tableData = response.data));
 			if(this.$route.query.user === "exporter") {
-				this.$notify.info({
+				this.$notify({
+					iconClass: 'el-icon-s-order',
 					title: 'New Order',
 					message: 'A new order of letter of credit is created by exporter.',
-					duration: 0
 				});
 			}
 		},
@@ -132,6 +132,7 @@
 				this.loading = false;
 			},
 			onClickRequest() {
+				this.loading = true;
 				var now = new Date();
 				var new_id = Math.ceil(Math.random()*100000000);
 				var new_posting_date = now.getFullYear()+"-"+now.getMonth()+"-"+now.getDate();
@@ -150,6 +151,7 @@
 				});
 				this.onClickRefresh();
 				this.dialogVisible = false;
+				this.loading = false;
 			}
 		}
 	};

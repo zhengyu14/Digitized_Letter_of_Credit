@@ -229,7 +229,7 @@
 		mounted() {
             axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id).then(response => (this.lcData = response.data));
             console.log(this.lcData);
-            if(this.$route.query.user === 'exporter' && this.lcData.issuer_bank == '') {
+            if(this.$route.query.user === 'exporter' && this.lcData.issuer_bank === '') {
                 this.disableLCInput = false;
             }
 		},
@@ -339,6 +339,8 @@
                         period_presentation: new_lc.period_presentation,
                     }
                 });
+                axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id).then(response => (this.lcData = response.data));
+                this.disableLCInput = true;
             }
         }
 	};
