@@ -228,7 +228,8 @@
 		beforeMount() {},
 		mounted() {
             axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id).then(response => (this.lcData = response.data));
-            if(this.$route.query.user === 'exporter' && this.lcData !== undefined) {
+            console.log(this.lcData);
+            if(this.$route.query.user === 'exporter' && this.lcData.issuer_bank == '') {
                 this.disableLCInput = false;
             }
 		},

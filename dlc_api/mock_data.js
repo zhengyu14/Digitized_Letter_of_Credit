@@ -125,17 +125,47 @@ function mock_data() {
     }
 
     this.get_transaction_lc = function(transaction_id) {
+        var found = false;
         for(var i = 0; i < transaction_lc.length; i++ ) {
             lc = transaction_lc[i];
             if(lc.transaction_id === transaction_id){
                 return lc;
+                found = true;
                 break;
             }
+        }
+        if(found===false){
+            var emptyLC = {
+                "transaction_id": "",
+                    "issuer_bank": "",
+                    "advisory_bank": "",
+                    "seller": "",
+                    "buyer": "",
+                    "id": "",
+                    "lc_type": "",
+                    "expiry": "",
+                    "amount": "",
+                    "address": "",
+                    "city": "",
+                    "country": "",
+                    "description": "",
+                    "quantity": "",
+                    "weight": "",
+                    "unit_of_weight": "",
+                    "nit_price": "",
+                    "country": "",
+                    "province": "",
+                    "city": "",
+                    "ast_ship_date": "",
+                    "period_presentation": "",
+            };
+            return emptyLC;
         }
     }
 
     this.add_transaction_lc = function(lc) {
         transaction_lc.push(lc);
+        return transaction_lc;
     }
 }
 
