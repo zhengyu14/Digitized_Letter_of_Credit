@@ -29,6 +29,9 @@
 				<el-table-column
 						prop="status"
 						label="Status">
+					<template slot-scope="scope">
+						<el-tag :type="scope.row.status === 'closed' ? 'danger' : 'success'" disable-transitions>{{scope.row.status}}</el-tag>
+					</template>
 				</el-table-column>
 				<el-table-column
 					prop="description"
@@ -121,7 +124,7 @@
 				this.$router.push({path:'/login/login'})
 			},
 			onClickItem(row, event, column){
-				this.$router.push({path:'/objectPage/objectPage', query: {'transaction_id': row.transaction_id}});
+				this.$router.push({path:'/objectPage/objectPage', query: {'user': this.$route.query.user, 'transaction_id': row.transaction_id}});
 				console.log(row);
 			},
 			onClickRefresh(){
@@ -145,7 +148,7 @@
 						amount: new_request.amount,
 						posting_date: new_posting_date,
 					}
-				})
+				});
 				this.onClickRefresh();
 				this.dialogVisible = false;
 			}

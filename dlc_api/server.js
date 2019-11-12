@@ -104,6 +104,52 @@ app.get('/get_transaction_lc', function(req, res) {
   res.status(200).json(data.get_transaction_lc(req.query.transaction_id));
 });
 
+// Add transaction L/C
+app.post('/add_lc', function(req, res) {
+  logger.info('Add to list: %s',req.headers);
+
+  var new_lc = {
+    "transaction_id": req.header('transaction_id'),
+
+    // Participants
+    "issuer_bank": req.header('issuer_bank'),
+    "advisory_bank": req.header('advisory_bank'),
+    "seller": req.header('seller'),
+    "buyer": req.header('buyer'),
+
+    // Identification
+    "id": req.header('id'),
+    "lc_type": req.header('lc_type'),
+    "expiry": req.header('expiry'),
+
+    // Value
+    "amount": req.header('amount'),
+
+    // Discharge Details
+    "address": req.header('address'),
+    "city": req.header('city'),
+    "country": req.header('country'),
+
+    // Product
+    "description": req.header('description'),
+    "quantity": req.header('quantity'),
+    "weight": req.header('weight'),
+    "unit_of_weight": req.header('unit_of_weight'),
+    "unit_price": req.header('unit_price'),
+
+    // Presentation
+    "country": req.header('country'),
+    "province": req.header('province'),
+    "city": req.header('city'),
+    "last_ship_date": req.header('last_ship_date'),
+    "period_presentation": req.header('period_presentation')
+  };
+
+  data.add_transaction_lc(new_lc);
+
+  res.status(200).json(data.get_transaction_lc(req.header('transaction_id')));
+})
+
 
 /*------------------------
     Express Config.
