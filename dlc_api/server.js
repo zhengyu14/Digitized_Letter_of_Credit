@@ -84,12 +84,15 @@ app.get('/get_list', function(req, res) {
 app.post('/add_to_list', function(req, res) {
   logger.info('Add to list: %s',req.headers);
 
-  var new_item = {"transaction_id": req.header('transaction_id'),
+  var new_item = {
+    "transaction_id": req.header('transaction_id'),
+    "status": "In Process",
     "description": req.header('description'),
     "importer": req.header('importer'),
     "exporter": req.header('exporter'),
     "amount": req.header('amount'),
-    "posting_date": req.header('posting_date')};
+    "posting_date": req.header('posting_date')
+  };
 
   data.push_to_transaction_list(new_item);
 
