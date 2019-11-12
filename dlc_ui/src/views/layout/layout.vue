@@ -40,19 +40,24 @@
 <style lang="less">
 	.layout-header{
 		display: block;
-		position: fixed;
-		top: 0;
-		width: 100%;
-		height: 75px;
+	    top: 0;
+	    width: 100%;
+	    height: 75px;
 	}
 	.layout-main{
-		padding: 16px;
-		margin-top: 30px;
+		flex:1;
+	    display: flex;
+    	align-items: center;
 	}
 	.layout-footer{
 		overflow: hidden;
-		position: fixed;
-		bottom: 0;
 		width: 100%;
+		height:60px;
+	}
+	.layout{
+	    height: 100%;
+	    font-size: 1.1rem;
+	    display: flex;
+	    flex-direction: column;
 	}
 </style>

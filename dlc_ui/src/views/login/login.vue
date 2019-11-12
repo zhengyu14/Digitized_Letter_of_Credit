@@ -60,7 +60,11 @@
 		computed: {},
 		methods: {
 			onClickLogin(){
-				this.$router.push({path:'/listReport/listReport'})
+				if(this.userName !== '' && (this.userName==='exporter' || this.userName==='importer' || this.userName==='bank')) {
+					this.$router.push({path: '/listReport/listReport', query: {'user': this.userName}})
+				} else {
+
+				}
 			}
 		}
 	};
@@ -70,19 +74,20 @@
 	.login{
 		display: flex;
 		justify-content: center;
-		align-items: center !important;
+	    height: 100%;
+	    width:100%;
+        align-items: center;
 		background-image: url('../../assets/login_bg.jpg');
 		background-size: 100% 100%;
 	}
 	.box-card-login{
 		border-radius: 0px;
 		width: 600px;
-		height: 500px;
+	    height: 520px;
 		.login-box{
 			display: flex;
 			flex-direction: column;
 			justify-content: left;
-			align-items: left;
 		}
 		.login-title{
 			font-family: Arial, Helvetica, sans-serif;
@@ -95,7 +100,6 @@
 		}
 		.login-operation-area{
 			justify-content: right;
-			align-items: right;
 			.login-button{
 				width:100px;
 				background-color:#BB0000;
@@ -109,7 +113,7 @@
 		background-color: #EBEBEB;
 		border-radius: 0px;
 		width: 400px;
-		height: 500px;
+		height:520px;
 		font-family: Arial, Helvetica, sans-serif;
 		justify-content: left;
 		align-items: left;

@@ -3,6 +3,8 @@
         <div class="header-content" align="left">
             <el-button class="button-back-to-list-report" type="primary" icon="el-icon-back" @click="onCLickBack"></el-button>
         </div>
+
+        <!-- L/C TAB -->
         <el-tabs tab-position="left" value="letterOfCredit">
             <el-tab-pane label="Letter of Credit" name="letterOfCredit">
                 <p align="left" class="form-title">Participants</p>
@@ -95,8 +97,18 @@
                 <p align="left" class="form-title">Upload File</p>
                 <el-form class="form" align="left" inline="true" label-position="top" size="mini">
                     <el-form-item class="form-item" label="Insurance Document">
-                        <el-button class="form-button" type="text">Browse</el-button>
-                        <el-button class="form-button" type="text">View</el-button>
+                        <el-upload
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :before-remove="beforeRemove"
+                                multiple
+                                :limit="3"
+                                :on-exceed="handleExceed"
+                                :file-list="fileListInsurance">
+                            <el-button class="form-button" size="small" type="text">Upload</el-button>
+                        </el-upload>
                     </el-form-item>
                 </el-form>
 
@@ -105,19 +117,50 @@
                 </div>
             </el-tab-pane>
 
+            <!-- DOCUMENT TAB -->
             <el-tab-pane label="Goods Doc. and Bill of Lading" name="doc">
                 <el-form class="form" align="left" inline="true" label-position="top" size="mini">
                     <el-form-item class="form-item" label="Bill of Lading">
-                        <el-button class="form-button" type="text">Browse</el-button>
-                        <el-button class="form-button" type="text">View</el-button>
+                        <el-upload
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :before-remove="beforeRemove"
+                                multiple
+                                :limit="3"
+                                :on-exceed="handleExceed"
+                                :file-list="fileListBoL">
+                            <el-button class="form-button" size="small" type="text">Upload</el-button>
+                        </el-upload>
                     </el-form-item>
                     <el-form-item class="form-item" label="Insurance Cliam Doc.">
-                        <el-button class="form-button" type="text">Browse</el-button>
-                        <el-button class="form-button" type="text">View</el-button>
+                        <el-upload
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :before-remove="beforeRemove"
+                                multiple
+                                :limit="3"
+                                :on-exceed="handleExceed"
+                                :file-list="fileListIC">
+                            <el-button class="form-button" size="small" type="text">Upload</el-button>
+                        </el-upload>
                     </el-form-item>
                     <el-form-item class="form-item" label="Damaged Goods Photos">
-                        <el-button class="form-button" type="text">Browse</el-button>
-                        <el-button class="form-button" type="text">View</el-button>
+                        <el-upload
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :before-remove="beforeRemove"
+                                multiple
+                                :limit="3"
+                                :on-exceed="handleExceed"
+                                :file-list="fileListDGP">
+                            <el-button class="form-button" size="small" type="text">Upload</el-button>
+                        </el-upload>
                     </el-form-item>
                 </el-form>
 
@@ -126,9 +169,51 @@
                 </div>
             </el-tab-pane>
 
-            <el-tab-pane label="Payment" name="payment">Coming Soon</el-tab-pane>
+            <!-- PAYMENT TAB -->
+            <el-tab-pane label="Payment" name="payment">
+                <div class="payment-progress">
+                    <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                        <el-form-item class="form-item" label="Advising Bank Payment">
+                            <el-button class="form-button" type="text" @click="dialogVisible = true">Pay</el-button>
+                            <el-button class="form-button" type="text">Status</el-button>
+                        </el-form-item>
+                        <el-form-item class="form-item" label="Issuing Bank Payment">
+                            <el-button class="form-button" type="text">Pay</el-button>
+                            <el-button class="form-button" type="text">Status</el-button>
+                        </el-form-item>
+                        <el-form-item class="form-item" label="Importer Payment">
+                            <el-button class="form-button" type="text">Pay</el-button>
+                            <el-button class="form-button" type="text">Status</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+
+                <el-dialog
+                        class="request-dialog"
+                        title="Payment"
+                        :visible.sync="dialogVisible">
+                    <el-form ref="form" :model="ab_payment" size="mini">
+                        <el-form-item class="request-item" label="Payment Amount" >
+                            <el-input v-model="ab_payment.amount" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item class="request-item" label="XRP Amount" >
+                            <el-input v-model="ab_payment.xrp_amount" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item class="request-item" label="" >
+                            <el-checkbox v-model="ab_payment.hedge" class="payment-check-box">Hedge</el-checkbox>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button class="request-dialog-button-cancel" @click="dialogVisible = false">Cancel</el-button>
+                        <el-button class="payment-dialog-button-pay" type="primary">Pay</el-button>
+                    </div>
+                </el-dialog>
+
+            </el-tab-pane>
         </el-tabs>
     </div>
+
+
 </template>
 
 <script type="text/javascript">
@@ -142,16 +227,14 @@
 		created() {},
 		beforeMount() {},
 		mounted() {
-            axios.get('/api/get_trans_lc').then(response => (this.lcData = response.data));
-            console.log(response)
-            this.participants = this.lcData[0].participants;
-            
+            axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id).then(response => (this.lcData = response.data));
 		},
 		beforeDestroy() {},
 		destroyed() {},
 
 		data() {
 			return {
+                dialogVisible: false,
 			    lcData: {
                     "transaction_id": "",
                     "participants": {
@@ -188,7 +271,44 @@
                         "period_presentation": "",
                     },
                     "upload_file": "",
-			    }
+			    },
+                fileListInsurance: [
+                    {
+                        name: 'Insurance.pdf',
+                        url: ''
+                    }
+                ],
+                fileListBoL: [
+                    {
+                        name: 'Bill of Lading.pdf',
+                        url: ''
+                    }
+                ],
+                fileListIC: [
+                    {
+                        name: 'Insurance Claim.pdf',
+                        url: ''
+                    }
+                ],
+                fileListDGP: [
+                    {
+                        name: 'Damaged Goods 1.jpg',
+                        url: ''
+                    },
+                    {
+                        name: 'Damaged Goods 2.jpg',
+                        url: ''
+                    },
+                    {
+                        name: 'Damaged Goods 3.jpg',
+                        url: ''
+                    }
+                ],
+                ab_payment:{
+			        "amount": "4283057",
+                    "xrp_amount": "42830",
+                    "hedge": true
+                }
 			};
 		},
 		watch: {},
@@ -196,6 +316,9 @@
 		methods: {
             onCLickBack(){
                 this.$router.push({path:'/listReport/listReport'})
+            },
+            onClickABPayment(){
+
             }
         }
 	};
@@ -207,7 +330,6 @@
     }
     .header-content{
         justify-content: left;
-        align-items: left;
     }
     .button-back-to-list-report{
         font-weight: bold;
@@ -234,6 +356,15 @@
         width:100px;
         background-color:#BB0000;
         border:none;
+        border-radius: 0px;
+    }
+    .payment-check-box{
+        color:#BB0000;
+    }
+    .payment-dialog-button-pay{
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #BB0000;
+        border: none;
         border-radius: 0px;
     }
 </style>

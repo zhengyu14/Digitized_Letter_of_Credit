@@ -18,7 +18,7 @@ log4js.configure({
     default: { appenders: ['out'], level: 'info' },
   }
 });
-let logger = log4js.getLogger('NGOAPI');
+let logger = log4js.getLogger('DLC');
 
 let host = 'localhost';
 let port = 3000;
@@ -80,7 +80,7 @@ app.get('/get_list', function(req, res) {
   res.status(200).json(data.get_transaction_list());
 });
 
-// Add transaction
+// Add a new transaction
 app.post('/add_to_list', function(req, res) {
   logger.info('Add to list: %s',req.headers);
 
@@ -96,11 +96,12 @@ app.post('/add_to_list', function(req, res) {
   res.status(200).json(data.get_transaction_list());
 })
 
-// Get transaction lc
-app.get('/get_trans_lc', function(req, res) {
-  logger.info('Get list: %s',req.headers);
+// Get transaction L/C
+app.get('/get_transaction_lc', function(req, res) {
+  logger.info('Get transaction L/C: %s', req.headers);
+  logger.info('Parameter: %s', req.query.transaction_id);
 
-  res.status(200).json(data.get_transaction_lc());
+  res.status(200).json(data.get_transaction_lc(req.query.transaction_id));
 });
 
 

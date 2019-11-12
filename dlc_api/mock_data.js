@@ -1,8 +1,8 @@
 function mock_data() {
     var transaction_list = [
-        {"transaction_id": "57423905", "description": "Noble Gas 194", "importer": "Vuipes", "exporter": "Great Wall Trading Co.", "amount": "102,597 USD", "posting_date": "2018-01-25"},
-        {"transaction_id": "57423421", "description": "Noble Gas 28", "importer": "Vuipes", "exporter": "Great Wall Trading Co.", "amount": "643,435 USD", "posting_date": "2017-11-14"},
-        {"transaction_id": "57423895", "description": "Hydraulics 74", "importer": "Great Wall Trading Co.", "exporter": "Wolf-Reiser", "amount": "840,639 USD", "posting_date": "2017-06-08"}
+        {"transaction_id": "57423905", "status": "closed", "description": "Noble Gas 194", "importer": "Vuipes", "exporter": "Great Wall Trading Co.", "amount": "102,597 USD", "posting_date": "2018-01-25"},
+        {"transaction_id": "57423421", "status": "closed", "description": "Noble Gas 28", "importer": "Vuipes", "exporter": "Great Wall Trading Co.", "amount": "643,435 USD", "posting_date": "2017-11-14"},
+        {"transaction_id": "57423895", "status": "closed", "description": "Hydraulics 74", "importer": "Great Wall Trading Co.", "exporter": "Wolf-Reiser", "amount": "840,639 USD", "posting_date": "2017-06-08"}
     ];
 
     var transaction_lc = [
@@ -52,8 +52,14 @@ function mock_data() {
         transaction_list.push(item);
     }
 
-    this.get_transaction_lc = function() {
-        return transaction_lc[0];
+    this.get_transaction_lc = function(transaction_id) {
+        for(var i = 0; i < transaction_lc.length; i++ ) {
+            lc = transaction_lc[i];
+            if(lc.transaction_id === transaction_id){
+                return lc;
+                break;
+            }
+        }
     }
 }
 

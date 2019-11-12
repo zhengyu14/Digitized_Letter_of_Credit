@@ -1,8 +1,10 @@
 <template>
 	<div class="list-report">
-		<template>
 			<el-row class="table-header">
-				<el-col :span="4" :offset="17">
+				<el-col :span="1">
+					<el-button class="log-out-button" type="primary" @click = "onClickLogOut">Log Out</el-button>
+				</el-col>
+				<el-col :span="4" :offset="16">
 					<el-input class="table-header-search" placeholder="Search" suffix-icon="el-icon-search"></el-input>
 				</el-col>
 				<el-col :span="3">
@@ -17,11 +19,16 @@
 				:data="tableData"
 				@row-click="onClickItem"
 				v-loading="loading"
+				header-row-class-name = "header-class"
 				>
 				<el-table-column
 					sortable
 					prop="transaction_id"
 					label="Transaction ID">
+				</el-table-column>
+				<el-table-column
+						prop="status"
+						label="Status">
 				</el-table-column>
 				<el-table-column
 					prop="description"
@@ -69,7 +76,6 @@
 					<el-button class="request-dialog-button-request" type="primary" @click="onClickRequest">Request</el-button>
 				</div>
 			</el-dialog>
-		</template>
 	</div>
 
 </template>
@@ -84,7 +90,14 @@
 		created() {},
 		beforeMount() {},
 		mounted() {
-			axios.get('/api/get_list').then(response => (this.tableData = response.data))
+			axios.get('/api/get_list').then(response => (this.tableData = response.data));
+			if(this.$route.query.user === "exporter") {
+				this.$notify.info({
+					title: 'New Order',
+					message: 'A new order of letter of credit is created by exporter.',
+					duration: 0
+				});
+			}
 		},
 		beforeDestroy() {},
 		destroyed() {},
@@ -104,8 +117,12 @@
 		watch: {},
 		computed: {},
 		methods: {
-			onClickItem(){
-				this.$router.push({path:'/objectPage/objectPage'})
+			onClickLogOut(){
+				this.$router.push({path:'/login/login'})
+			},
+			onClickItem(row, event, column){
+				this.$router.push({path:'/objectPage/objectPage', query: {'transaction_id': row.transaction_id}});
+				console.log(row);
 			},
 			onClickRefresh(){
 				this.loading = true;
@@ -117,16 +134,17 @@
 				var new_id = Math.ceil(Math.random()*100000000);
 				var new_posting_date = now.getFullYear()+"-"+now.getMonth()+"-"+now.getDate();
 				var new_request = this.requestForm;
-				console.log(new_id)
-				console.log(new_request)
-				console.log(new_posting_date)
-
-				axios.post('/api/get_list', {
-					transaction_id: this.new_id,
-					description: this.new_request.description,
-					importer: this.new_request.importer,
-					exporter: this.new_request.exporter,
-					posting_date: this.new_posting_date,
+				axios({
+					method: 'post',
+					url: '/api/add_to_list',
+					headers: {
+						transaction_id: new_id,
+						description: new_request.description,
+						importer: new_request.importer,
+						exporter: new_request.exporter,
+						amount: new_request.amount,
+						posting_date: new_posting_date,
+					}
 				})
 				this.onClickRefresh();
 				this.dialogVisible = false;
@@ -135,7 +153,17 @@
 	};
 </script>
 
-<style lang="css" scoped>
+<style lang="css" >
+	.log-out-button{
+		width:90px;
+		background-color:#BB0000;
+		border:none;
+		border-radius: 0px;
+	}
+	.list-report{
+		height: 100%;
+		width: 100%;
+	}
 	.table-header {
 		padding-top: 5px;
 	}
