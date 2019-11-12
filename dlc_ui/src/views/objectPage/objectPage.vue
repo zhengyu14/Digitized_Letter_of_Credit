@@ -227,11 +227,13 @@
 		created() {},
 		beforeMount() {},
 		mounted() {
-            axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id).then(response => (this.lcData = response.data));
-            console.log(this.lcData);
-            if(this.$route.query.user === 'exporter' && this.lcData.issuer_bank === '') {
-                this.disableLCInput = false;
-            }
+            axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id,)
+                .then((response) => {
+                    this.lcData = response.data
+                    if(this.$route.query.user === 'exporter' && this.lcData.issuer_bank === '') {
+                        this.disableLCInput = false;
+                    }
+                });
 		},
 		beforeDestroy() {},
 		destroyed() {},
@@ -315,7 +317,7 @@
                     method: 'post',
                     url: '/api/add_lc',
                     headers: {
-                        transaction_id: new_lc.transaction_id,
+                        transaction_id: this.$route.query.transaction_id,
                         issuer_bank: new_lc.issuer_bank,
                         advisory_bank: new_lc.advisory_bank,
                         seller: new_lc.seller,
