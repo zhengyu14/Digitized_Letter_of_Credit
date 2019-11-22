@@ -8,7 +8,7 @@
         <el-tabs tab-position="left" value="letterOfCredit">
             <el-tab-pane label="Letter of Credit" name="letterOfCredit">
                 <p align="left" class="form-title">Participants</p>
-                <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                <el-form class="form" align="left" inline label-position="top" size="mini">
                     <el-form-item class="form-item" label="Issuer Bank">
                         <el-input :disabled="disableLCInput" v-model="lcData.issuer_bank"></el-input>
                     </el-form-item>
@@ -24,7 +24,7 @@
                 </el-form>
 
                 <p align="left" class="form-title">Identification</p>
-                <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                <el-form class="form" align="left" inline label-position="top" size="mini">
                     <el-form-item class="form-item" label="ID">
                         <el-input :disabled="disableLCInput" v-model="lcData.id"></el-input>
                     </el-form-item>
@@ -37,14 +37,14 @@
                 </el-form>
 
                 <p align="left" class="form-title">Value</p>
-                <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                <el-form class="form" align="left" inline label-position="top" size="mini">
                     <el-form-item class="form-item" label="Amount">
                         <el-input :disabled="disableLCInput" v-model="lcData.amount"></el-input>
                     </el-form-item>
                 </el-form>
 
                 <p align="left" class="form-title">Discharge Details</p>
-                <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                <el-form class="form" align="left" inline label-position="top" size="mini">
                     <el-form-item class="form-item" label="Address">
                         <el-input :disabled="disableLCInput" v-model="lcData.address"></el-input>
                     </el-form-item>
@@ -57,7 +57,7 @@
                 </el-form>
 
                 <p align="left" class="form-title">Product</p>
-                <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                <el-form class="form" align="left" inline label-position="top" size="mini">
                     <el-form-item class="form-item" label="Description">
                         <el-input :disabled="disableLCInput" v-model="lcData.description"></el-input>
                     </el-form-item>
@@ -76,7 +76,7 @@
                 </el-form>
 
                 <p align="left" class="form-title">Presentation</p>
-                <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                <el-form class="form" align="left" inline label-position="top" size="mini">
                     <el-form-item class="form-item" label="Country">
                         <el-input :disabled="disableLCInput" v-model="lcData.country"></el-input>
                     </el-form-item>
@@ -95,17 +95,15 @@
                 </el-form>
 
                 <p align="left" class="form-title">Upload File</p>
-                <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                <el-form class="form" align="left" inline label-position="top" size="mini">
                     <el-form-item class="form-item" label="Insurance Document">
                         <el-upload
                                 class="upload-demo"
                                 action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
-                                :before-remove="beforeRemove"
+         
                                 multiple
                                 :limit="3"
-                                :on-exceed="handleExceed"
+              
                                 :file-list="fileListInsurance">
                             <el-button class="form-button" size="small" type="text">Upload</el-button>
                         </el-upload>
@@ -119,17 +117,15 @@
 
             <!-- DOCUMENT TAB -->
             <el-tab-pane label="Goods Doc. and Bill of Lading" name="doc">
-                <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                <el-form class="form" align="left" inline label-position="top" size="mini" style = "display: flex;justify-content: space-around;">
                     <el-form-item class="form-item" label="Bill of Lading">
                         <el-upload
                                 class="upload-demo"
                                 action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
-                                :before-remove="beforeRemove"
+                
                                 multiple
                                 :limit="3"
-                                :on-exceed="handleExceed"
+                               
                                 :file-list="fileListBoL">
                             <el-button class="form-button" size="small" type="text">Upload</el-button>
                         </el-upload>
@@ -138,12 +134,10 @@
                         <el-upload
                                 class="upload-demo"
                                 action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
-                                :before-remove="beforeRemove"
+                 
                                 multiple
                                 :limit="3"
-                                :on-exceed="handleExceed"
+                                
                                 :file-list="fileListIC">
                             <el-button class="form-button" size="small" type="text">Upload</el-button>
                         </el-upload>
@@ -152,12 +146,10 @@
                         <el-upload
                                 class="upload-demo"
                                 action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
-                                :before-remove="beforeRemove"
+                 
                                 multiple
                                 :limit="3"
-                                :on-exceed="handleExceed"
+                                
                                 :file-list="fileListDGP">
                             <el-button class="form-button" size="small" type="text">Upload</el-button>
                         </el-upload>
@@ -172,9 +164,9 @@
             <!-- PAYMENT TAB -->
             <el-tab-pane label="Payment" name="payment">
                 <div class="payment-progress">
-                    <el-form class="form" align="left" inline="true" label-position="top" size="mini">
+                    <el-form class="form" align="left" inline label-position="top" size="mini">
                         <el-form-item class="form-item" label="Advising Bank Payment">
-                            <el-button class="form-button" type="text" @click="dialogVisible = true">Pay</el-button>
+                            <el-button class="form-button" type="text"  @click = "showDia">Pay</el-button>
                             <el-button class="form-button" type="text">Status</el-button>
                         </el-form-item>
                         <el-form-item class="form-item" label="Issuing Bank Payment">
@@ -200,12 +192,13 @@
                             <el-input v-model="ab_payment.xrp_amount" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item class="request-item" label="" >
-                            <el-checkbox v-model="ab_payment.hedge" class="payment-check-box">Hedge</el-checkbox>
+                            <el-checkbox v-model="ab_payment.hedge" class="payment-check-box">Hedge (Recommended by Recent Volatility)</el-checkbox>
                         </el-form-item>
                     </el-form>
+                    <div id="line" class="line" style="width: 100%;height: 200px;"></div>
                     <div slot="footer" class="dialog-footer">
                         <el-button class="request-dialog-button-cancel" @click="dialogVisible = false">Cancel</el-button>
-                        <el-button class="payment-dialog-button-pay" type="primary">Pay</el-button>
+                        <el-button class="payment-dialog-button-pay" type="primary" @click="dialogVisible = false">Pay</el-button>
                     </div>
                 </el-dialog>
 
@@ -215,10 +208,10 @@
 
 
 </template>
-
+i
 <script type="text/javascript">
 	import axios from 'axios';
-
+    import echarts from 'echarts';
 	export default {
 		props: {},
 		components: {},
@@ -302,7 +295,8 @@
 			        "amount": "4283057",
                     "xrp_amount": "42830",
                     "hedge": true
-                }
+                },
+                line:null
 			};
 		},
 		watch: {},
@@ -343,6 +337,31 @@
                 });
                 axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id).then(response => (this.lcData = response.data));
                 this.disableLCInput = true;
+            },
+            showDia(){
+                let vm = this;
+                this.dialogVisible = true;
+                var fileListInsurance
+                this.$nextTick(()=>{
+                    vm.line = echarts.init(document.getElementById('line'));
+                    let option = {
+                        xAxis: {
+                            type: 'category',
+                            data: ['15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
+                        },
+                        yAxis: {
+                            max: 1.9,
+                            min: 1.8,
+                            type: 'value',
+                        },
+                        series: [{
+                            data: [1.86, 1.82, 1.89, 1.88, 1.85, 1.82, 1.87, 1.85, 1.89, 1.82, 1.87, 1.83, 1.88, 1.81],
+                            type: 'line'
+                        }]
+                    };
+
+                    vm.line.setOption(option,true);
+                })
             }
         }
 	};
@@ -351,7 +370,13 @@
 <style lang="css" scoped>
     .object-page{
         font-family: Arial, Helvetica, sans-serif;
+        width: 100%;
+        .el-tabs__content{
+            height: 100%;
+        }
+
     }
+
     .header-content{
         justify-content: left;
     }
@@ -380,7 +405,7 @@
         width:100px;
         background-color:#BB0000;
         border:none;
-        border-radius: 0px;
+        border-radius: 0px; 
     }
     .payment-check-box{
         color:#BB0000;

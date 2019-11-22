@@ -47,7 +47,7 @@
 	.layout-main{
 		flex:1;
 	    display: flex;
-    	align-items: center;
+    	
 	}
 	.layout-footer{
 		overflow: hidden;
