@@ -60,7 +60,7 @@
 					class="request-dialog"
 					title="New Letter of Credit"
 					:visible.sync="dialogVisible">
-				<el-form ref="form" :model="requestForm" size="mini">
+				<el-form :label-position="top" ref="form" :model="requestForm" size="mini">
 					<el-form-item class="request-item" label="Description" >
 						<el-input v-model="requestForm.description" auto-complete="off"></el-input>
 					</el-form-item>
@@ -71,7 +71,17 @@
 						<el-input v-model="requestForm.exporter" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item class="request-item" label="Amount">
-						<el-input v-model="requestForm.amount" auto-complete="off"></el-input>
+						<el-input v-model="requestForm.amount" class="request-amount">
+							<el-select style="width: 80px;" slot="append" v-model="currency.currency" placeholder="USD">
+								<el-option label="USD" value="USD"></el-option>
+								<el-option label="HKD" value="HKD"></el-option>
+								<el-option label="CNY" value="CNY"></el-option>
+								<el-option label="GBP" value="GBP"></el-option>
+								<el-option label="EUR" value="EUR"></el-option>
+								<el-option label="AUD" value="AUD"></el-option>
+								<el-option label="CHF" value="CHF"></el-option>
+							</el-select>
+						</el-input>
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
@@ -113,6 +123,9 @@
 					"exporter": "",
 					"amount": "",
 				},
+				currency: {
+					"currency": "",
+				},
 				loading: false,
 				dialogVisible: false,
 			};
@@ -136,6 +149,12 @@
 				var now = new Date();
 				var new_id = Math.ceil(Math.random()*100000000);
 				var new_posting_date = now.getFullYear()+"-"+now.getMonth()+"-"+now.getDate();
+				if (this.currency.currency === '') {
+					var amount_with_currency = this.requestForm.amount + ' USD';
+				} else {
+					var amount_with_currency = this.requestForm.amount + ' ' + this.currency.currency;
+				}
+
 				var new_request = this.requestForm;
 				axios({
 					method: 'post',
@@ -145,7 +164,7 @@
 						description: new_request.description,
 						importer: new_request.importer,
 						exporter: new_request.exporter,
-						amount: new_request.amount,
+						amount: amount_with_currency,
 						posting_date: new_posting_date,
 					}
 				});
@@ -187,10 +206,7 @@
 		font-family: Arial, Helvetica, sans-serif;
 	}
 	.request-item{
-
-	}
-	.dialog-footer{
-
+		width: 100%;
 	}
 	.request-dialog-button-cancel{
 		font-family: Arial, Helvetica, sans-serif;

@@ -157,7 +157,7 @@
                 </el-form>
 
                 <div align="right">
-                    <el-button class="form-submit-button" type="primary">Submit</el-button>
+                    <el-button class="form-submit-button" type="primary" @click = 'onClickSubmitDoc'>Submit</el-button>
                 </div>
             </el-tab-pane>
 
@@ -167,15 +167,15 @@
                     <el-form class="form" align="left" inline label-position="top" size="mini">
                         <el-form-item class="form-item" label="Advising Bank Payment">
                             <el-button class="form-button" type="text"  @click = "showDia">Pay</el-button>
-                            <el-button class="form-button" type="text">Status</el-button>
+                            <el-button class="form-button" type="text" @click = "showStatusDia">Status</el-button>
                         </el-form-item>
                         <el-form-item class="form-item" label="Issuing Bank Payment">
-                            <el-button class="form-button" type="text">Pay</el-button>
-                            <el-button class="form-button" type="text">Status</el-button>
+                            <el-button class="form-button" type="text" @click = "showLockedDia">Pay</el-button>
+                            <el-button class="form-button" type="text" @click = "showStatusDia">Status</el-button>
                         </el-form-item>
                         <el-form-item class="form-item" label="Importer Payment">
-                            <el-button class="form-button" type="text">Pay</el-button>
-                            <el-button class="form-button" type="text">Status</el-button>
+                            <el-button class="form-button" type="text" @click = "showLockedDia">Pay</el-button>
+                            <el-button class="form-button" type="text" @click = "showStatusDia">Status</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -186,7 +186,17 @@
                         :visible.sync="dialogVisible">
                     <el-form ref="form" :model="ab_payment" size="mini">
                         <el-form-item class="request-item" label="Payment Amount" >
-                            <el-input v-model="ab_payment.amount" auto-complete="off"></el-input>
+                            <el-input v-model="ab_payment.amount" auto-complete="off">
+                                <el-select style="width: 80px;" slot="append" placeholder="USD">
+                                    <el-option label="USD" value="USD"></el-option>
+                                    <el-option label="HKD" value="HKD"></el-option>
+                                    <el-option label="CNY" value="CNY"></el-option>
+                                    <el-option label="GBP" value="GBP"></el-option>
+                                    <el-option label="EUR" value="EUR"></el-option>
+                                    <el-option label="AUD" value="AUD"></el-option>
+                                    <el-option label="CHF" value="CHF"></el-option>
+                                </el-select>
+                            </el-input>
                         </el-form-item>
                         <el-form-item class="request-item" label="XRP Amount" >
                             <el-input v-model="ab_payment.xrp_amount" auto-complete="off"></el-input>
@@ -199,6 +209,35 @@
                     <div slot="footer" class="dialog-footer">
                         <el-button class="request-dialog-button-cancel" @click="dialogVisible = false">Cancel</el-button>
                         <el-button class="payment-dialog-button-pay" type="primary" @click="dialogVisible = false">Pay</el-button>
+                    </div>
+                </el-dialog>
+
+                <el-dialog
+                        class="request-dialog"
+                        title="Payment Status"
+                        :visible.sync="statusDialogVisible">
+                    <p>Payment Amount: 4,283,057.00 USD</p>
+                    <p>Payment Status: Success</p>
+                </el-dialog>
+
+                <el-dialog
+                        class="request-dialog"
+                        title="Payment Status"
+                        :visible.sync="lockedDialogVisible">
+                    <el-input v-model="ab_payment.amount" :disabled="true" auto-complete="off">
+                        <el-select style="width: 80px;" :disabled="true" slot="append" placeholder="USD">
+                            <el-option label="USD" value="USD"></el-option>
+                            <el-option label="HKD" value="HKD"></el-option>
+                            <el-option label="CNY" value="CNY"></el-option>
+                            <el-option label="GBP" value="GBP"></el-option>
+                            <el-option label="EUR" value="EUR"></el-option>
+                            <el-option label="AUD" value="AUD"></el-option>
+                            <el-option label="CHF" value="CHF"></el-option>
+                        </el-select>
+                    </el-input>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button class="request-dialog-button-cancel" @click="lockedDialogVisible = false">Cancel</el-button>
+                        <el-button class="payment-dialog-button-pay" type="primary" @click="lockedDialogVisible = false">Pay</el-button>
                     </div>
                 </el-dialog>
 
@@ -235,6 +274,8 @@ i
 			return {
                 dialogVisible: false,
                 disableLCInput: true,
+                statusDialogVisible: false,
+                lockedDialogVisible: false,
 			    lcData: {
                     "transaction_id": "",
                     "issuer_bank": "",
@@ -292,8 +333,8 @@ i
                     }
                 ],
                 ab_payment:{
-			        "amount": "4283057",
-                    "xrp_amount": "42830",
+			        "amount": "4,283,057.00",
+                    "xrp_amount": "7,966,486.02",
                     "hedge": true
                 },
                 line:null
@@ -306,37 +347,53 @@ i
                 this.$router.push({path:'/listReport/listReport', query: {'user': this.$route.query.user}})
             },
             onClickSubmitLC(){
-                var new_lc = this.lcData;
-                axios({
-                    method: 'post',
-                    url: '/api/add_lc',
-                    headers: {
-                        transaction_id: this.$route.query.transaction_id,
-                        issuer_bank: new_lc.issuer_bank,
-                        advisory_bank: new_lc.advisory_bank,
-                        seller: new_lc.seller,
-                        buyer: new_lc.buyer,
-                        id: new_lc.id,
-                        lc_type: new_lc.lc_type,
-                        expiry: new_lc.expiry,
-                        amount: new_lc.amount,
-                        address: new_lc.address,
-                        city: new_lc.city,
-                        country: new_lc.country,
-                        description: new_lc.description,
-                        quantity: new_lc.quantity,
-                        weight: new_lc.weight,
-                        unit_of_weight: new_lc.unit_of_weight,
-                        nit_price: new_lc.nit_price,
-                        country: new_lc.country,
-                        province: new_lc.province,
-                        city: new_lc.city,
-                        ast_ship_date: new_lc.ast_ship_date,
-                        period_presentation: new_lc.period_presentation,
-                    }
+                if (this.lcData.issuer_bank === '') {
+                    this.$message.error('Please fill the mandatory information: Issuer Bank');
+                } else {
+                    var new_lc = this.lcData;
+                    axios({
+                        method: 'post',
+                        url: '/api/add_lc',
+                        headers: {
+                            transaction_id: this.$route.query.transaction_id,
+                            issuer_bank: new_lc.issuer_bank,
+                            advisory_bank: new_lc.advisory_bank,
+                            seller: new_lc.seller,
+                            buyer: new_lc.buyer,
+                            id: new_lc.id,
+                            lc_type: new_lc.lc_type,
+                            expiry: new_lc.expiry,
+                            amount: new_lc.amount,
+                            address: new_lc.address,
+                            city: new_lc.city,
+                            country: new_lc.country,
+                            description: new_lc.description,
+                            quantity: new_lc.quantity,
+                            weight: new_lc.weight,
+                            unit_of_weight: new_lc.unit_of_weight,
+                            nit_price: new_lc.nit_price,
+                            country: new_lc.country,
+                            province: new_lc.province,
+                            city: new_lc.city,
+                            ast_ship_date: new_lc.ast_ship_date,
+                            period_presentation: new_lc.period_presentation,
+                        }
+                    });
+
+                    //axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id).then(response => (this.lcData = response.data));
+                    this.disableLCInput = true;
+
+                    this.$message({
+                        message: 'Your letter of credit has been successfully submitted',
+                        type: 'success'
+                    });
+                }
+            },
+            onClickSubmitDoc() {
+                this.$message({
+                    message: 'Your documents have been successfully submitted',
+                    type: 'success'
                 });
-                axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id).then(response => (this.lcData = response.data));
-                this.disableLCInput = true;
             },
             showDia(){
                 let vm = this;
@@ -362,6 +419,12 @@ i
 
                     vm.line.setOption(option,true);
                 })
+            },
+            showStatusDia() {
+                this.statusDialogVisible = true;
+            },
+            showLockedDia() {
+                this.lockedDialogVisible = true;
             }
         }
 	};
