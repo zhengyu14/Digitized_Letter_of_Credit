@@ -100,10 +100,10 @@
                         <el-upload
                                 class="upload-demo"
                                 action="https://jsonplaceholder.typicode.com/posts/"
-         
+
                                 multiple
                                 :limit="3"
-              
+
                                 :file-list="fileListInsurance">
                             <el-button class="form-button" size="small" type="text">Upload</el-button>
                         </el-upload>
@@ -111,46 +111,50 @@
                 </el-form>
 
                 <div align="right">
-                    <el-button class="form-submit-button" type="primary" @click="onClickSubmitLC">Submit</el-button>
+                    <el-button class="form-submit-button" type="primary" @click="onClickSubmitLC">Issue</el-button>
                 </div>
             </el-tab-pane>
 
             <!-- DOCUMENT TAB -->
-            <el-tab-pane label="Goods Doc. and Bill of Lading" name="doc">
+            <el-tab-pane label="Documents" name="doc">
                 <el-form class="form" align="left" inline label-position="top" size="mini" style = "display: flex;justify-content: space-around;">
-                    <el-form-item class="form-item" label="Bill of Lading">
+                    <el-form-item style="width: 20%;" label="Commercial invoice">
                         <el-upload
                                 class="upload-demo"
                                 action="https://jsonplaceholder.typicode.com/posts/"
-                
                                 multiple
                                 :limit="3"
-                               
-                                :file-list="fileListBoL">
+                                :file-list="fileCommercialInvoice">
                             <el-button class="form-button" size="small" type="text">Upload</el-button>
                         </el-upload>
                     </el-form-item>
-                    <el-form-item class="form-item" label="Insurance Cliam Doc.">
+                    <el-form-item style="width: 20%;" label="Packing list">
                         <el-upload
                                 class="upload-demo"
                                 action="https://jsonplaceholder.typicode.com/posts/"
-                 
                                 multiple
                                 :limit="3"
-                                
-                                :file-list="fileListIC">
+                                :file-list="filePackingList">
                             <el-button class="form-button" size="small" type="text">Upload</el-button>
                         </el-upload>
                     </el-form-item>
-                    <el-form-item class="form-item" label="Damaged Goods Photos">
+                    <el-form-item style="width: 20%;" label="Certificate">
                         <el-upload
                                 class="upload-demo"
                                 action="https://jsonplaceholder.typicode.com/posts/"
-                 
                                 multiple
                                 :limit="3"
-                                
-                                :file-list="fileListDGP">
+                                :file-list="fileCert">
+                            <el-button class="form-button" size="small" type="text">Upload</el-button>
+                        </el-upload>
+                    </el-form-item>
+                    <el-form-item style="width: 20%;" label="Bill">
+                        <el-upload
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                multiple
+                                :limit="3"
+                                :file-list="fileBill">
                             <el-button class="form-button" size="small" type="text">Upload</el-button>
                         </el-upload>
                     </el-form-item>
@@ -167,15 +171,15 @@
                     <el-form class="form" align="left" inline label-position="top" size="mini">
                         <el-form-item class="form-item" label="Advising Bank Payment">
                             <el-button class="form-button" type="text"  @click = "showDia">Pay</el-button>
-                            <el-button class="form-button" type="text" @click = "showStatusDia">Status</el-button>
+                            <el-button class="form-button-active" type="text" @click = "showStatusDia" >Status</el-button>
                         </el-form-item>
                         <el-form-item class="form-item" label="Issuing Bank Payment">
-                            <el-button class="form-button" type="text" @click = "showLockedDia">Pay</el-button>
-                            <el-button class="form-button" type="text" @click = "showStatusDia">Status</el-button>
+                            <el-button class="form-button" type="text" @click = "showDia" >Pay</el-button>
+                            <el-button class="form-button-active" type="text" @click = "showStatusDia" >Status</el-button>
                         </el-form-item>
                         <el-form-item class="form-item" label="Importer Payment">
-                            <el-button class="form-button" type="text" @click = "showLockedDia">Pay</el-button>
-                            <el-button class="form-button" type="text" @click = "showStatusDia">Status</el-button>
+                            <el-button class="form-button" type="text" @click = "showLockedDia" >Pay</el-button>
+                            <el-button class="form-button-active" type="text" @click = "showStatusDia" >Status</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -187,7 +191,7 @@
                     <el-form ref="form" :model="ab_payment" size="mini">
                         <el-form-item class="request-item" label="Payment Amount" >
                             <el-input v-model="ab_payment.amount" auto-complete="off">
-                                <el-select style="width: 80px;" slot="append" placeholder="USD">
+                                <el-select style="width: 80px;" slot="append" placeholder="HKD">
                                     <el-option label="USD" value="USD"></el-option>
                                     <el-option label="HKD" value="HKD"></el-option>
                                     <el-option label="CNY" value="CNY"></el-option>
@@ -205,6 +209,24 @@
                             <el-checkbox v-model="ab_payment.hedge" class="payment-check-box">Hedge (Recommended by Recent Volatility)</el-checkbox>
                         </el-form-item>
                     </el-form>
+                    <el-form ref="form" :model="ab_payment" size="mini">
+                        <el-form-item class="request-item" label="Hedging Period" >
+                            <el-input v-model="hdg.period" auto-complete="off">
+                                <el-select style="width: 100px;" slot="append" placeholder="Month">
+                                    <el-option label="Month" value="Month"></el-option>
+                                    <el-option label="Days" value="Days"></el-option>
+                                </el-select>
+                            </el-input>
+                        </el-form-item>
+                    </el-form><br>
+                    <span>
+                        <p style="color: #427cac; padding:0px; margin:0px; display: inline;">HKD Rate: 2.4%   /   </p>
+                        <p style="color: #427cac; padding:0px; margin:0px; display: inline;">XRP Rate: 4.3%</p>
+                    </span><br><br>
+                    <span>
+                        <p style="font-weight: bold; font-size: 120%; padding:0px; margin:0px; display: inline;">XRP Price: HK$1.80  </p>
+                        <p style="color: #BB0000; padding:0px; margin:0px; display: inline;">-HK$0.07(3.66%)</p>
+                    </span>
                     <div id="line" class="line" style="width: 100%;height: 200px;"></div>
                     <div slot="footer" class="dialog-footer">
                         <el-button class="request-dialog-button-cancel" @click="dialogVisible = false">Cancel</el-button>
@@ -216,7 +238,7 @@
                         class="request-dialog"
                         title="Payment Status"
                         :visible.sync="statusDialogVisible">
-                    <p>Payment Amount: 4,283,057.00 USD</p>
+                    <p>Payment Amount: 4,283,057.00 HKD</p>
                     <p>Payment Status: Success</p>
                 </el-dialog>
 
@@ -225,7 +247,7 @@
                         title="Payment Status"
                         :visible.sync="lockedDialogVisible">
                     <el-input v-model="ab_payment.amount" :disabled="true" auto-complete="off">
-                        <el-select style="width: 80px;" :disabled="true" slot="append" placeholder="USD">
+                        <el-select style="width: 80px;" :disabled="true" slot="append" placeholder="HKD">
                             <el-option label="USD" value="USD"></el-option>
                             <el-option label="HKD" value="HKD"></el-option>
                             <el-option label="CNY" value="CNY"></el-option>
@@ -262,7 +284,7 @@ i
             axios.get('/api/get_transaction_lc?transaction_id='+this.$route.query.transaction_id,)
                 .then((response) => {
                     this.lcData = response.data
-                    if(this.$route.query.user === 'exporter' && this.lcData.issuer_bank === '') {
+                    if(this.$route.query.user === 'importer' && this.lcData.issuer_bank === '') {
                         this.disableLCInput = false;
                     }
                 });
@@ -306,29 +328,43 @@ i
                         url: ''
                     }
                 ],
-                fileListBoL: [
+                fileCommercialInvoice: [
+                    {
+                        name: 'Commercial Invoice.pdf',
+                        url: ''
+                    }
+                ],
+                filePackingList: [
+                    {
+                        name: 'Packing List.pdf',
+                        url: ''
+                    }
+                ],
+                fileCert: [
+                    {
+                        name: 'Certificate of inspection.pdf',
+                        url: ''
+                    },
+                    {
+                        name: 'Certificate of origin.pdf',
+                        url: ''
+                    },
+                    {
+                        name: 'Insurance certificate/policy.pdf',
+                        url: ''
+                    }
+                ],
+                fileBill: [
                     {
                         name: 'Bill of Lading.pdf',
                         url: ''
-                    }
-                ],
-                fileListIC: [
+                    },
                     {
-                        name: 'Insurance Claim.pdf',
-                        url: ''
-                    }
-                ],
-                fileListDGP: [
-                    {
-                        name: 'Damaged Goods 1.jpg',
+                        name: 'Airway Bill.pdf',
                         url: ''
                     },
                     {
-                        name: 'Damaged Goods 2.jpg',
-                        url: ''
-                    },
-                    {
-                        name: 'Damaged Goods 3.jpg',
+                        name: 'Bill of Exchange.pdf',
                         url: ''
                     }
                 ],
@@ -336,6 +372,9 @@ i
 			        "amount": "4,283,057.00",
                     "xrp_amount": "7,966,486.02",
                     "hedge": true
+                },
+                hdg:{
+                    "period": "3"
                 },
                 line:null
 			};
@@ -384,7 +423,7 @@ i
                     this.disableLCInput = true;
 
                     this.$message({
-                        message: 'Your letter of credit has been successfully submitted',
+                        message: 'This letter of credit is successfully issued.',
                         type: 'success'
                     });
                 }
@@ -459,10 +498,15 @@ i
     .form-item{
         width: 250px;
     }
-    .form-button{
+    .form-button-active{
         font-family: Arial, Helvetica, sans-serif;
         font-weight: bold;
         color:  #BB0000;
+    }
+    .form-button{
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        color:  #EBEBEB;
     }
     .form-submit-button{
         width:100px;

@@ -60,7 +60,7 @@
 		computed: {},
 		methods: {
 			onClickLogin(){
-				if(this.userName !== '' && (this.userName==='exporter' || this.userName==='importer' || this.userName==='bank')) {
+				if(this.userName !== '' && (this.userName==='exporter' || this.userName==='importer' || this.userName==='issuingbank' || this.userName==='advisingbank')) {
 					this.$router.push({path: '/listReport/listReport', query: {'user': this.userName}})
 				} else {
 

@@ -104,13 +104,13 @@
 		beforeMount() {},
 		mounted() {
 			axios.get('/api/get_list').then(response => (this.tableData = response.data));
-			if(this.$route.query.user === "exporter") {
+			/*if(this.$route.query.user === "importer") {
 				this.$notify({
 					iconClass: 'el-icon-s-order',
 					title: 'New Order',
 					message: 'A new order of letter of credit is created by exporter.',
 				});
-			}
+			}*/
 		},
 		beforeDestroy() {},
 		destroyed() {},
